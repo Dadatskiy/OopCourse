@@ -56,4 +56,38 @@ public class Triangle implements Shapes {
         return Math.sqrt(semiPerimeter *
                 (semiPerimeter - getSideSize1()) * (semiPerimeter - getSideSize2()) * (semiPerimeter - getSideSize3()));
     }
+
+    @Override
+    public String toString() {
+        return "Тип фигуры: Треугольник" + "\n" + "Ширина = " + getWidth() + "\n" + "Высота = " + getHeight() + "\n" +
+                "Периметр = " + getPerimeter() + "\n" + "Площадь = " + getArea();
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 37;
+        int hash = 1;
+        hash = prime * hash + Double.hashCode(x1);
+        hash = prime * hash + Double.hashCode(y1);
+        hash = prime * hash + Double.hashCode(x2);
+        hash = prime * hash + Double.hashCode(y2);
+        hash = prime * hash + Double.hashCode(x3);
+        hash = prime * hash + Double.hashCode(y3);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object triangle) {
+        if (triangle == this) {
+            return true;
+        }
+
+        if (triangle == null || triangle.getClass() != getClass()) {
+            return false;
+        }
+
+        Triangle triangle1 = (Triangle) triangle;
+        return x1 == triangle1.x1 && y1 == triangle1.y1 && x2 == triangle1.x2 &&
+                y2 == triangle1.y2 && x3 == triangle1.x3 && y3 == triangle1.y3;
+    }
 }

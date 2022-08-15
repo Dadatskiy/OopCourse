@@ -26,4 +26,32 @@ public class Circle implements Shapes {
     public double getPerimeter() {
         return 2 * Math.PI * radius;
     }
+
+    @Override
+    public String toString() {
+        return "Тип фигуры: Круг" + "\n" + "Ширина = " + 2 * radius + "\n" + "Высота = " + 2 * radius + "\n" +
+                "Периметр = " + getPerimeter() + "\n" + "Площадь = " + getArea();
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 37;
+        int hash = 1;
+        hash = prime * hash + Double.hashCode(radius);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object circle) {
+        if (circle == this) {
+            return true;
+        }
+
+        if (circle == null || circle.getClass() != getClass()) {
+            return false;
+        }
+
+        Circle circle1 = (Circle) circle;
+        return radius == circle1.radius;
+    }
 }
