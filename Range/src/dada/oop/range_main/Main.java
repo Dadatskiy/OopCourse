@@ -5,8 +5,7 @@ import dada.oop.range.Range;
 import java.util.Scanner;
 
 public class Main {
-
-    public static void printRanges(Range[] ranges) {
+    public static void printRangesArray(Range[] ranges) {
         if (ranges.length == 0) {
             System.out.println("[]");
         } else if (ranges.length == 1) {
@@ -53,17 +52,17 @@ public class Main {
         if (range.getIntersection(range1) == null) {
             System.out.println("Заданные интервалы не пересекаются");
         } else {
-            System.out.println("Пересечением интервалов " + range + " и " + range1 + "  " + " является  " + range.getIntersection(range1));
+            System.out.println("Пересечением интервалов " + range + " и " + range1 + "  " + "является " + range.getIntersection(range1));
         }
 
         Range[] union = range.getUnion(range1);
 
         System.out.print("Объединением интервалов " + range + " и " + range1 + " является: ");
-        printRanges(union);
+        printRangesArray(union);
 
         Range[] difference = range.getDifference(range1);
 
         System.out.print("Несимметричной разностью интервалов " + range + " и " + range1 + " является: ");
-        printRanges(difference);
+        printRangesArray(difference);
     }
 }

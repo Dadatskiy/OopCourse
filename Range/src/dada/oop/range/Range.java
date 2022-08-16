@@ -39,22 +39,8 @@ public class Range {
     }
 
     public Range getIntersection(Range range) {
-        if (to > range.from && range.to > from) { /* { return new Range (Math.max(from, range.from), Math.min(to, range.to) }*/
-            if (from > range.from && to > range.to) {
-                return new Range(from, range.to);
-            }
-
-            if (from < range.from && to < range.to) {
-                return new Range(range.from, to);
-            }
-
-            if (from > range.from && to < range.to) {
-                return new Range(from, to);
-            }
-
-            if (from < range.from && to > range.to) {
-                return new Range(range.from, range.to);
-            }
+        if (to > range.from && range.to > from) {
+        return new Range (Math.max(from, range.from), Math.min(to, range.to));
         }
 
         if (from == range.from && to == range.to) {
@@ -69,22 +55,8 @@ public class Range {
             return new Range[]{new Range(from, to)};
         }
 
-        if (to > range.from && range.to > from) {
-            if (from > range.from && to > range.to) {
-                return new Range[]{new Range(range.from, to)};
-            }
-
-            if (from < range.from && to < range.to) {
-                return new Range[]{new Range(from, range.to)};
-            }
-
-            if (from > range.from && to < range.to) {
-                return new Range[]{new Range(range.from, range.to)};
-            }
-
-            if (from <= range.from && to >= range.to) {
-                return new Range[]{new Range(from, to)};
-            }
+        if (to >= range.from && range.to >= from) {
+            return new Range[]{new Range(Math.min(from, range.from), Math.max(to, range.to))};
         }
 
         return from < range.from
