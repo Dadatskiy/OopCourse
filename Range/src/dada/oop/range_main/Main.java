@@ -5,18 +5,33 @@ import dada.oop.range.Range;
 import java.util.Scanner;
 
 public class Main {
+
+    public static void printRanges(Range[] ranges) {
+        if (ranges.length == 0) {
+            System.out.println("[]");
+        } else if (ranges.length == 1) {
+            System.out.println(ranges[0]);
+        } else {
+            System.out.print("[" + ranges[0] + "; ");
+            for (int i = 1; i < ranges.length - 1; i++) {
+                System.out.print(ranges[i] + "; ");
+            }
+            System.out.println(ranges[ranges.length - 1] + "]");
+        }
+    }
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Введите первое число диапазона: ");
-        double from = scanner.nextDouble();
+        double from1 = scanner.nextDouble();
 
         System.out.print("Введите последнее число диапазона: ");
-        double to = scanner.nextDouble();
+        double to1 = scanner.nextDouble();
 
-        Range range = new Range(from, to);
+        Range range = new Range(from1, to1);
 
-        System.out.println("Длина диапазона (" + range.getFrom() + " ; " + range.getTo() + ") = " + range.getLength());
+        System.out.println("Длина диапазона " + range + " = " + range.getLength());
 
         System.out.print("Введите любое число, чтобы проверить, лежит ли оно в заданном вами диапазоне: ");
         double number = scanner.nextDouble();
@@ -28,44 +43,27 @@ public class Main {
         }
 
         System.out.print("Задайте заново первое число диапазона: ");
-        double newFrom = scanner.nextDouble();
+        double from2 = scanner.nextDouble();
 
         System.out.print("Задайте заново последнее число диапазона: ");
-        double newTo = scanner.nextDouble();
+        double to2 = scanner.nextDouble();
 
-        Range intersectionRange = range.getIntersection(newFrom, newTo);
+        Range range1 = new Range(from2, to2);
 
-        if (intersectionRange == null) {
+        if (range.getIntersection(range1) == null) {
             System.out.println("Заданные интервалы не пересекаются");
         } else {
-            System.out.println("Интервал пересечения двух интервалов: "
-                    + "(" + intersectionRange.getFrom() + ", " + intersectionRange.getTo() + ")");
+            System.out.println("Пересечением интервалов " + range + " и " + range1 + "  " + " является  " + range.getIntersection(range1));
         }
 
-        Range [] unionRange = range.getUnion(newFrom, newTo);
+        Range[] union = range.getUnion(range1);
 
-        if (unionRange == null) {
-            System.out.println("Заданные интервалы невозможно объединить");
-        }
-        else if (unionRange.length == 1) {
-            System.out.println("Интервал объединения двух интервалов: " + "(" + unionRange[0].getFrom() + ", " + unionRange[0].getTo()+ ")");
-        } else {
-            System.out.println("Интервалы объединения двух интервалов: "
-                    + "(" + unionRange[0].getFrom() + ", " + unionRange[0].getTo() + "), ("
-                    + unionRange[1].getFrom() + ", " + unionRange[1].getTo() + ")");
-        }
+        System.out.print("Объединением интервалов " + range + " и " + range1 + " является: ");
+        printRanges(union);
 
+        Range[] difference = range.getDifference(range1);
 
-        Range [] differenceRange = range.getDifference(newFrom, newTo);
-
-        if (differenceRange == null) {
-            System.out.println("Нессимитричая разность данных интервалов отсутствует.");
-        } else if (differenceRange.length == 1) {
-            System.out.println("Интервал разности двух интервалов: " + "(" + differenceRange[0].getFrom() + ", " + differenceRange[0].getTo()+ ")");
-        } else if (differenceRange.length == 2) {
-            System.out.println("Интервалы разности двух интервалов: "
-                    + "(" + differenceRange[0].getFrom() + ", " + differenceRange[0].getTo() + "), ("
-                    + differenceRange[1].getFrom() + ", " + differenceRange[1].getTo() + ")");
-        }
+        System.out.print("Несимметричной разностью интервалов " + range + " и " + range1 + " является: ");
+        printRanges(difference);
     }
 }
