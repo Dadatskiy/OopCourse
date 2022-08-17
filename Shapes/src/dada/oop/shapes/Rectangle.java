@@ -1,11 +1,19 @@
 package dada.oop.shapes;
 
 public class Rectangle implements Shapes {
-    private final double width;
-    private final double height;
+    private double width;
+    private double height;
 
     public Rectangle(double width, double height) {
         this.width = width;
+        this.height = height;
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public void setHeight(double height) {
         this.height = height;
     }
 
