@@ -2,17 +2,28 @@ package vector_main;
 
 import vector.Vector;
 
+
 public class Main {
     public static void main(String[] args) {
-        Vector vector = new Vector(4);
+        Vector vector0 = new Vector(5);
+        System.out.println("Vector 0 " + vector0);
+        Vector vector0Copy = new Vector(vector0);
+        System.out.println("Vector 0 copy " + vector0Copy);
 
-        Vector copyVector = new Vector(vector);
+        double[] components1 = {1, 2, 3, 4, 5};
 
-        double [] components = {40,-98.33,-2,0,45,-45,8888};
+        Vector vector1 = new Vector(components1);
+        System.out.println("Vector 1 " + vector1);
+        Vector vector1Copy = new Vector(vector1);
+        System.out.println("Vector 1 copy " + vector1Copy);
 
-        Vector vector1 = new Vector(components);
+        System.out.println("Длина вектора 1 = " + vector1.getVectorLength());
 
-        System.out.println(vector1);
-        System.out.println(vector.getSize());
+
+        Vector vector2 = new Vector(vector0Copy.addVector(vector1));
+        System.out.println("Vector 2 " + vector2);
+
+        System.out.println("Vector 0 " + vector0);
+        System.out.println("Vector 0 copy " + vector0Copy);
     }
 }
