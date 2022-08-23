@@ -28,7 +28,8 @@ public class Range {
 
     public void setTo(double to) {
         this.to = to;
-        if (from >= this.to) {
+
+        if (from >= this.to) { // или стоило сравнить "this.from" с передаваемым "to", чтобы проверка прошла перед заполнением поля?
             throw new IllegalArgumentException
                     ("Введен некорректный диапазон: " + this + ". Начало диапазона должно быть меньше, чем его конец!");
         }

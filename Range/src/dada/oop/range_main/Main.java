@@ -11,9 +11,9 @@ public class Main {
         } else if (ranges.length == 1) {
             System.out.println("[" + ranges[0] + "]");
         } else {
-            System.out.print("[" + ranges[0] + ", ");
+            System.out.print("[");
 
-            for (int i = 1; i < ranges.length - 1; i++) {
+            for (int i = 0; i < ranges.length - 1; i++) {
                 System.out.print(ranges[i] + ", ");
             }
 
