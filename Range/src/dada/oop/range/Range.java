@@ -5,12 +5,13 @@ public class Range {
     private double to;
 
     public Range(double from, double to) {
+        if (from >= to) {
+            throw new IllegalArgumentException
+                    ("Введен некорректный диапазон: (" + from + "; " + to + "). Начало диапазона должно быть меньше, чем его конец!");
+        }
+
         this.from = from;
         this.to = to;
-
-        if (this.from >= this.to) {
-            throw new RuntimeException("Начало диапазона должно быть меньше, чем его конец!");
-        }
     }
 
     public double getFrom() {
@@ -27,6 +28,10 @@ public class Range {
 
     public void setTo(double to) {
         this.to = to;
+        if (from >= this.to) {
+            throw new IllegalArgumentException
+                    ("Введен некорректный диапазон: " + this + ". Начало диапазона должно быть меньше, чем его конец!");
+        }
     }
 
     public double getLength() {
@@ -34,31 +39,23 @@ public class Range {
     }
 
     public boolean isInside(double number) {
-        return number > from && number < to;
+        return number >= from && number <= to;
     }
 
     @Override
-    public String toString () {
+    public String toString() {
         return "(" + from + "; " + to + ")";
     }
 
     public Range getIntersection(Range range) {
         if (to > range.from && range.to > from) {
-        return new Range (Math.max(from, range.from), Math.min(to, range.to));
-        }
-
-        if (from == range.from && to == range.to) {
-            return new Range(from, to);
+            return new Range(Math.max(from, range.from), Math.min(to, range.to));
         }
 
         return null;
     }
 
     public Range[] getUnion(Range range) {
-        if (from == range.from && to == range.to) {
-            return new Range[]{new Range(from, to)};
-        }
-
         if (to >= range.from && range.to >= from) {
             return new Range[]{new Range(Math.min(from, range.from), Math.max(to, range.to))};
         }
@@ -69,24 +66,20 @@ public class Range {
     }
 
     public Range[] getDifference(Range range) {
-        if ((from > range.from && to <= range.to) || (from == range.from && to == range.to)) {
-            return new Range[0];
-        }
-
         if (to > range.from && range.to > from) {
+            if (from < range.from && to > range.to) {
+                return new Range[]{new Range(from, range.from), new Range(range.to, to)};
+            }
+
             if (from > range.from && to > range.to) {
                 return new Range[]{new Range(range.to, to)};
             }
 
-            if (from < range.from) {
-                if (to <= range.to) {
-                    return new Range[]{new Range(from, range.from)};
-                }
-
-                return new Range[]{new Range(from, range.from), new Range(range.to, to)};
+            if (from < range.from && to < range.to) {
+                return new Range[]{new Range(from, range.from)};
             }
         }
 
-            return new Range[]{new Range(from, to)};
+        return new Range[0];
     }
 }

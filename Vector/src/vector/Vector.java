@@ -8,17 +8,16 @@ public class Vector {
     private double[] components;
 
     public Vector(int n) {
-        this.n = n;
-
         if (n < 0) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Размерность вектора не может быть меньше нуля");
         }
 
+        this.n = n;
         components = new double[n];
     }
 
     public Vector(Vector vector) {
-        this.n = vector.n;
+        this.n = vector.getSize();
         this.components = vector.components;
     }
 

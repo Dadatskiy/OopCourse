@@ -9,12 +9,14 @@ public class Main {
         if (ranges.length == 0) {
             System.out.println("[]");
         } else if (ranges.length == 1) {
-            System.out.println(ranges[0]);
+            System.out.println("[" + ranges[0] + "]");
         } else {
-            System.out.print("[" + ranges[0] + "; ");
+            System.out.print("[" + ranges[0] + ", ");
+
             for (int i = 1; i < ranges.length - 1; i++) {
-                System.out.print(ranges[i] + "; ");
+                System.out.print(ranges[i] + ", ");
             }
+
             System.out.println(ranges[ranges.length - 1] + "]");
         }
     }
@@ -52,7 +54,7 @@ public class Main {
         if (range.getIntersection(range1) == null) {
             System.out.println("Заданные интервалы не пересекаются");
         } else {
-            System.out.println("Пересечением интервалов " + range + " и " + range1 + "  " + "является " + range.getIntersection(range1));
+            System.out.println("Пересечением интервалов " + range + " и " + range1 + " является [" + range.getIntersection(range1) + "]");
         }
 
         Range[] union = range.getUnion(range1);
