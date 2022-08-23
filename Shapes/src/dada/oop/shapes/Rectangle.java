@@ -1,6 +1,6 @@
 package dada.oop.shapes;
 
-public class Rectangle implements Shapes {
+public class Rectangle implements Shape {
     private double width;
     private double height;
 
@@ -9,22 +9,22 @@ public class Rectangle implements Shapes {
         this.height = height;
     }
 
-    public void setWidth(double width) {
-        this.width = width;
-    }
-
-    public void setHeight(double height) {
-        this.height = height;
-    }
-
     @Override
     public double getWidth() {
         return width;
     }
 
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
     @Override
     public double getHeight() {
         return height;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
     }
 
     @Override
@@ -39,8 +39,8 @@ public class Rectangle implements Shapes {
 
     @Override
     public String toString() {
-        return "Тип фигуры: Прямоугольник" + "\n" + "Ширина = " + width + "\n" + "Высота = " + height + "\n" +
-                "Периметр = " + getPerimeter() + "\n" + "Площадь = " + getArea();
+        return "Тип фигуры: Прямоугольник; Ширина = " + width + "; Высота = " + height
+                + "; Периметр = " + getPerimeter() + "; Площадь = " + getArea();
     }
 
     @Override
@@ -53,16 +53,16 @@ public class Rectangle implements Shapes {
     }
 
     @Override
-    public boolean equals(Object rectangle) {
-        if (rectangle == this) {
+    public boolean equals(Object o) {
+        if (o == this) {
             return true;
         }
 
-        if (rectangle == null || rectangle.getClass() != getClass()) {
+        if (o == null || o.getClass() != getClass()) {
             return false;
         }
 
-        Rectangle rectangle1 = (Rectangle) rectangle;
+        Rectangle rectangle1 = (Rectangle) o;
         return width == rectangle1.width && height == rectangle1.height;
     }
 }

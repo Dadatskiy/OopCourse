@@ -1,6 +1,6 @@
 package dada.oop.shapes;
 
-public class Circle implements Shapes {
+public class Circle implements Shape {
     private double radius;
 
     public Circle(double radius) {
@@ -27,7 +27,7 @@ public class Circle implements Shapes {
 
     @Override
     public double getArea() {
-        return Math.PI * Math.pow(radius, 2);
+        return radius * radius;
     }
 
     @Override
@@ -37,8 +37,7 @@ public class Circle implements Shapes {
 
     @Override
     public String toString() {
-        return "Тип фигуры: Круг" + "\n" + "Ширина = " + 2 * radius + "\n" + "Высота = " + 2 * radius + "\n" +
-                "Периметр = " + getPerimeter() + "\n" + "Площадь = " + getArea();
+        return "Тип фигуры: Круг; Радиус = " + radius + "; Периметр = " + getPerimeter() + "; Площадь = " + getArea();
     }
 
     @Override
@@ -50,16 +49,16 @@ public class Circle implements Shapes {
     }
 
     @Override
-    public boolean equals(Object circle) {
-        if (circle == this) {
+    public boolean equals(Object o) {
+        if (o == this) {
             return true;
         }
 
-        if (circle == null || circle.getClass() != getClass()) {
+        if (o == null || o.getClass() != getClass()) {
             return false;
         }
 
-        Circle circle1 = (Circle) circle;
-        return radius == circle1.radius;
+        Circle circle = (Circle) o;
+        return radius == circle.radius;
     }
 }

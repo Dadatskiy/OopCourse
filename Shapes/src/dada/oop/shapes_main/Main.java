@@ -7,13 +7,13 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 public class Main {
-    public static Shapes getShapeWithConformingAreaValue(Shapes[] shapes, int whatAreaValue) {
-        Arrays.sort(shapes, Comparator.comparing(Shapes::getArea));
+    public static Shape getShapeWithConformingAreaValue(Shape[] shapes, int whatAreaValue) {
+        Arrays.sort(shapes, Comparator.comparing(Shape::getArea));
         return shapes[shapes.length - whatAreaValue];
     }
 
-    public static Shapes getShapeWithConformingPerimeterValue(Shapes[] shapes, int whatPerimeterArea) {
-        Arrays.sort(shapes, Comparator.comparing(Shapes::getPerimeter));
+    public static Shape getShapeWithConformingPerimeterValue(Shape[] shapes, int whatPerimeterArea) {
+        Arrays.sort(shapes, Comparator.comparing(Shape::getPerimeter));
         return shapes[shapes.length - whatPerimeterArea];
     }
 
@@ -31,18 +31,18 @@ public class Main {
 
         Circle circle1 = new Circle(35);
 
-        Shapes[] shapes = {triangle1, triangle2, square1, new Square(32), rectangle1, rectangle2, circle1, new Circle(35)};
+        Shape[] shapes = {triangle1, triangle2, square1, new Square(32), rectangle1, rectangle2, circle1, new Circle(35)};
 
         int whatAreaValue = 1;
 
-        Shapes firstAreaShape = getShapeWithConformingAreaValue(shapes, whatAreaValue);
+        Shape firstAreaShape = getShapeWithConformingAreaValue(shapes, whatAreaValue);
 
         System.out.println("Фигура с максимальной площадью имеет следующие характеристики: ");
         System.out.println(firstAreaShape);
 
         int whatPerimeterArea = 2;
 
-        Shapes secondPerimeterShape = getShapeWithConformingPerimeterValue(shapes, whatPerimeterArea);
+        Shape secondPerimeterShape = getShapeWithConformingPerimeterValue(shapes, whatPerimeterArea);
 
         System.out.println("Фигура со вторым по величине периметром имеет следующие характеристики: ");
         System.out.println(secondPerimeterShape);
