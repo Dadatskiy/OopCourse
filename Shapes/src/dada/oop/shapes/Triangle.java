@@ -9,18 +9,22 @@ public class Triangle implements Shape {
     private double y3;
 
     public Triangle(double x1, double y1, double x2, double y2, double x3, double y3) {
+        double epsilon = 1e-10;
+
+        if (Math.abs((y3 - y1) * (x2 - x1) - (x3 - x1) * (y2 - y1)) < epsilon) {
+            throw new IllegalArgumentException("По заданным координатам не может существовать треугольник!");
+        }
+
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;
         this.y2 = y2;
         this.x3 = x3;
         this.y3 = y3;
+    }
 
-        double epsilon = 1e-10;
-
-        if (Math.abs((y3 - y1) * (x2 - x1) - (x3 - x1) * (y2 - y1)) < epsilon) {
-            throw new RuntimeException("По заданным координатам не может существовать треугольник!");
-        }
+    public double getSideLength(double x1, double y1, double x2, double y2) {
+        return Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
     }
 
     public double getX1() {
@@ -81,34 +85,29 @@ public class Triangle implements Shape {
         return Math.max(Math.max(y1, y2), y3) - Math.min(Math.min(y1, y2), y3);
     }
 
-    private double getSideSize1() {
-        return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
-    }
-
-    private double getSideSize2() {
-        return Math.sqrt(Math.pow((x3 - x2), 2) + Math.pow((y3 - y2), 2));
-    }
-
-    private double getSideSize3() {
-        return Math.sqrt(Math.pow((x3 - x1), 2) + Math.pow((y3 - y1), 2));
-    }
+    private double side1Length;
+    private double side2Length;
+    private double side3Length;
 
     @Override
     public double getPerimeter() {
-        return getSideSize1() + getSideSize2() + getSideSize3();
+        side1Length = getSideLength(x1, y1, x2, y2);
+        side2Length = getSideLength(x3, y3, x2, y2);
+        side3Length = getSideLength(x3, y3, x1, y1);
+        return side1Length + side2Length + side3Length;
     }
 
     @Override
     public double getArea() {
         double semiPerimeter = getPerimeter() / 2;
-        return Math.sqrt(semiPerimeter *
-                (semiPerimeter - getSideSize1()) * (semiPerimeter - getSideSize2()) * (semiPerimeter - getSideSize3()));
+        return Math.sqrt(semiPerimeter
+                * (semiPerimeter - side1Length) * (semiPerimeter - side2Length) * (semiPerimeter - side3Length));
     }
 
     @Override
     public String toString() {
-        return "Тип фигуры: Треугольник" + "\n" + "Ширина = " + getWidth() + "\n" + "Высота = " + getHeight() + "\n" +
-                "Периметр = " + getPerimeter() + "\n" + "Площадь = " + getArea();
+        return "Тип фигуры: Треугольник; (x1; y1) = " + x1 + ";" + y1 + ", (x2; y2) = " + x2 + ";" + y2
+                + ", (x3; y3) = " + x3 + "," + y3 + "Периметр = " + getPerimeter() + "Площадь = " + getArea();
     }
 
     @Override
@@ -125,17 +124,18 @@ public class Triangle implements Shape {
     }
 
     @Override
-    public boolean equals(Object triangle) {
-        if (triangle == this) {
+    public boolean equals(Object o) {
+        if (o == this) {
             return true;
         }
 
-        if (triangle == null || triangle.getClass() != getClass()) {
+        if (o == null || o.getClass() != getClass()) {
             return false;
         }
 
-        Triangle triangle1 = (Triangle) triangle;
-        return x1 == triangle1.x1 && y1 == triangle1.y1 &&
-                x2 == triangle1.x2 && y2 == triangle1.y2 && x3 == triangle1.x3 && y3 == triangle1.y3;
+        Triangle triangle = (Triangle) o;
+        return x1 == triangle.x1 && y1 == triangle.y1
+                && x2 == triangle.x2 && y2 == triangle.y2
+                && x3 == triangle.x3 && y3 == triangle.y3;
     }
 }

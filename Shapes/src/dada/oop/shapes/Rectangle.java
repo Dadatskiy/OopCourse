@@ -62,7 +62,7 @@ public class Rectangle implements Shape {
             return false;
         }
 
-        Rectangle rectangle1 = (Rectangle) o;
-        return width == rectangle1.width && height == rectangle1.height;
+        Rectangle rectangle = (Rectangle) o;
+        return width == rectangle.width && height == rectangle.height;
     }
 }

@@ -58,7 +58,7 @@ public class Square implements Shape {
             return false;
         }
 
-        Square square1 = (Square) o;
-        return sideLength == square1.sideLength;
+        Square square = (Square) o;
+        return sideLength == square.sideLength;
     }
 }
