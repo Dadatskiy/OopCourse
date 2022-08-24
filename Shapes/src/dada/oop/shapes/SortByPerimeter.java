@@ -9,7 +9,7 @@ public class SortByPerimeter implements Comparator<Shape> {
             return -1;
         }
 
-        if (shape1.getArea() == shape2.getArea()) {
+        if (shape1.getPerimeter() == shape2.getPerimeter()) {
             return 0;
         }
 
