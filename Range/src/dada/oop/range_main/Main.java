@@ -51,10 +51,12 @@ public class Main {
 
         Range range1 = new Range(from2, to2);
 
-        if (range.getIntersection(range1) == null) {
+        Range intersection = range.getIntersection(range1);
+
+        if (intersection == null) {
             System.out.println("Заданные интервалы не пересекаются");
         } else {
-            System.out.println("Пересечением интервалов " + range + " и " + range1 + " является [" + range.getIntersection(range1) + "]");
+            System.out.println("Пересечением интервалов " + range + " и " + range1 + " является [" + intersection + "]");
         }
 
         Range[] union = range.getUnion(range1);
