@@ -18,7 +18,9 @@ public class Vector {
 
     public Vector(Vector vector) {
         this.n = vector.getSize();
-        this.components = vector.components;
+        this.components = new double[vector.getSize()];
+
+        System.arraycopy(vector.components, 0, this.components, 0, vector.getSize());
     }
 
     public Vector(double[] components) {
@@ -40,18 +42,36 @@ public class Vector {
         }
     }
 
-    public void toCompleteVector(Vector transferredVector) {
-        double[] tempComponents = components;
+    public int getSize() {
+        return n;
+    }
 
-        this.components = new double[transferredVector.getSize()];
+    public double getComponent(int index) {
+        return components[index];
+    }
 
-        System.arraycopy(tempComponents, 0, this.components, 0, n);
+    public void setComponent(int index, double component) {
+        this.components[index] = component;
+    }
+
+    public void toCompleteVector(int necessaryCapacity, Vector complementedVector) {
+        double[] tempComponents = complementedVector.components;
+
+        complementedVector.components = new double[necessaryCapacity];
+
+        System.arraycopy(tempComponents, 0, complementedVector.components, 0, complementedVector.getSize());
     }
 
     public Vector addVector(Vector vector) {
-        if (n < vector.getSize()) {
-            toCompleteVector(vector);
+        if (n >= vector.getSize()) {
+            for (int i = 0; i < Math.min(vector.getSize(), n); i++) {
+                this.components[i] = this.components[i] + vector.components[i];
+            }
+
+            return this;
         }
+
+        toCompleteVector(vector.getSize(), this);
 
         for (int i = 0; i < Math.max(vector.getSize(), n); i++) {
             this.components[i] = this.components[i] + vector.components[i];
@@ -61,17 +81,19 @@ public class Vector {
     }
 
     public Vector subtractVector(Vector vector) {
-        if (n > vector.getSize()) {
+        if (n >= vector.getSize()) {
             for (int i = 0; i < vector.getSize(); i++) {
                 this.components[i] = this.components[i] - vector.components[i];
             }
+
+            return new Vector(components);
         }
 
-        if (n <= vector.getSize()) {
-            toCompleteVector(vector);
-            for (int i = 0; i < n; i++) {
-                this.components[i] = this.components[i] - vector.components[i];
-            }
+        toCompleteVector(vector.getSize(), this);
+
+        for (int i = 0; i < n; i++) {
+            this.components[i] = this.components[i] - vector.components[i];
+
         }
 
         return new Vector(components);
@@ -103,18 +125,6 @@ public class Vector {
         return Math.sqrt(squaredComponents);
     }
 
-    public int getSize() {
-        return n;
-    }
-
-    public double getComponent(int index) {
-        return components[index];
-    }
-
-    public void setComponent(int index, double component) {
-        this.components[index] = component;
-    }
-
     @Override
     public String toString() {
         if (components.length == 0) {
@@ -125,9 +135,9 @@ public class Vector {
             return "{" + components[0] + "}";
         }
 
-        StringBuilder componentsString = new StringBuilder("{" + components[0] + ", ");
+        StringBuilder componentsString = new StringBuilder("{");
 
-        for (int i = 1; i < components.length - 1; i++) {
+        for (int i = 0; i < components.length - 1; i++) {
             componentsString.append(components[i]).append(", ");
         }
 
