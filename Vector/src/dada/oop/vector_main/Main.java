@@ -1,6 +1,6 @@
-package vector_main;
+package dada.oop.vector_main;
 
-import vector.Vector;
+import dada.oop.vector.Vector;
 
 public class Main {
     public static void main(String[] args) {

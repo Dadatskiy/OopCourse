@@ -1,4 +1,4 @@
-package vector;
+package dada.oop.vector;
 
 import java.util.Arrays;
 
