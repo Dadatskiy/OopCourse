@@ -19,7 +19,7 @@ public class Main {
         Vector vector1 = new Vector(components1);
 
         System.out.println("Вектор 1: " + vector1);
-        System.out.println("Размерность вектора 1: " + vector1.getSize());
+        System.out.println("Размерность вектора 1 = " + vector1.getSize());
         System.out.println("Длина вектора 1 = " + vector1.getVectorLength());
         System.out.println();
 
@@ -27,7 +27,7 @@ public class Main {
         Vector vector2 = new Vector(components2);
 
         System.out.println("Вектор 2: " + vector2);
-        System.out.println("Размерность вектора 2: " + vector2.getSize());
+        System.out.println("Размерность вектора 2 = " + vector2.getSize());
         System.out.println("Длина вектора 2 = " + vector2.getVectorLength());
         System.out.println();
 
