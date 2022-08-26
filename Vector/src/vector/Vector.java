@@ -28,17 +28,21 @@ public class Vector {
         this.components = components;
     }
 
-    public Vector(int n, double[] transferredComponents) {
+    public Vector(int n, double[] components) {
+        if (n < 0) {
+            throw new IllegalArgumentException("Размерность вектора не может быть меньше нуля");
+        }
+
         this.n = n;
 
-        if (n < transferredComponents.length) {
+        if (n < components.length) {
             throw new IllegalArgumentException();
-        } else if (n == transferredComponents.length) {
-            this.components = transferredComponents;
+        } else if (n == components.length) {
+            this.components = components;
         } else {
             this.components = new double[n];
 
-            System.arraycopy(transferredComponents, 0, this.components, 0, transferredComponents.length);
+            System.arraycopy(components, 0, this.components, 0, components.length);
         }
     }
 
@@ -74,7 +78,7 @@ public class Vector {
         toCompleteVector(vector.getSize(), this);
 
         for (int i = 0; i < Math.max(vector.getSize(), n); i++) {
-            this.components[i] = this.components[i] + vector.components[i];
+            components[i] = components[i] + vector.components[i];
         }
 
         return new Vector(components);
@@ -83,7 +87,7 @@ public class Vector {
     public Vector subtractVector(Vector vector) {
         if (n >= vector.getSize()) {
             for (int i = 0; i < vector.getSize(); i++) {
-                this.components[i] = this.components[i] - vector.components[i];
+                components[i] = components[i] - vector.components[i];
             }
 
             return new Vector(components);
@@ -91,9 +95,8 @@ public class Vector {
 
         toCompleteVector(vector.getSize(), this);
 
-        for (int i = 0; i < n; i++) {
-            this.components[i] = this.components[i] - vector.components[i];
-
+        for (int i = 0; i < vector.getSize(); i++) {
+            components[i] = components[i] - vector.components[i];
         }
 
         return new Vector(components);
@@ -101,7 +104,7 @@ public class Vector {
 
     public Vector multiplyByScalar(double scalar) {
         for (int i = 0; i < n; i++) {
-            this.components[i] = this.components[i] * scalar;
+            components[i] = components[i] * scalar;
         }
 
         return new Vector(components);
@@ -109,7 +112,7 @@ public class Vector {
 
     public Vector revertVector() {
         for (int i = 0; i < n; i++) {
-            this.components[i] = -this.components[i];
+            components[i] = -components[i];
         }
 
         return new Vector(components);
@@ -176,9 +179,9 @@ public class Vector {
         return new Vector(vector1.subtractVector(vector2));
     }
 
-    private static double scalarMulti;
-
     public static double getScalarMulti(Vector vector1, Vector vector2) {
+        double scalarMulti = 0;
+
         for (int i = 0; i < Math.min(vector1.getSize(), vector2.getSize()); i++) {
             scalarMulti = scalarMulti + vector1.getComponent(i) * vector2.getComponent(i);
         }
