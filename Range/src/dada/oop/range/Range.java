@@ -19,6 +19,11 @@ public class Range {
     }
 
     public void setFrom(double from) {
+        if (from >= to) {
+            throw new IllegalArgumentException("Введен некорректный диапазон: (" + from + "; " +
+                    to + "). Начало диапазона должно быть меньше, чем его конец!");
+        }
+
         this.from = from;
     }
 
@@ -27,12 +32,12 @@ public class Range {
     }
 
     public void setTo(double to) {
-        this.to = to;
-
-        if (from >= this.to) { // или стоило сравнить "this.from" с передаваемым "to", чтобы проверка прошла перед заполнением поля?
-            throw new IllegalArgumentException
-                    ("Введен некорректный диапазон: " + this + ". Начало диапазона должно быть меньше, чем его конец!");
+        if (from >= to) {
+            throw new IllegalArgumentException("Введен некорректный диапазон: (" + from + "; " +
+                    to + "). Начало диапазона должно быть меньше, чем его конец!");
         }
+
+        this.to = to;
     }
 
     public double getLength() {
@@ -72,11 +77,15 @@ public class Range {
                 return new Range[]{new Range(from, range.from), new Range(range.to, to)};
             }
 
+            if (from == range.from && to > range.to) {
+                return new Range[]{new Range(from, range.to)};
+            }
+
             if (from > range.from && to > range.to) {
                 return new Range[]{new Range(range.to, to)};
             }
 
-            if (from < range.from && to < range.to) {
+            if (from < range.from) {
                 return new Range[]{new Range(from, range.from)};
             }
         }
