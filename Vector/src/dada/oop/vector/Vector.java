@@ -50,6 +50,10 @@ public class Vector {
         return n;
     }
 
+    public double [] getComponents() {
+        return components;
+    }
+
     public double getComponent(int index) {
         return components[index];
     }
@@ -58,12 +62,12 @@ public class Vector {
         this.components[index] = component;
     }
 
-    public void toCompleteVector(int necessaryCapacity, Vector complementedVector) {
-        double[] tempComponents = complementedVector.components;
+    public void toCompleteVector(int necessaryCapacity) {
+        double[] tempComponents = components;
 
-        complementedVector.components = new double[necessaryCapacity];
+        components = new double[necessaryCapacity];
 
-        System.arraycopy(tempComponents, 0, complementedVector.components, 0, complementedVector.getSize());
+        System.arraycopy(tempComponents, 0, components, 0, getSize());
     }
 
     public Vector addVector(Vector vector) {
@@ -75,7 +79,7 @@ public class Vector {
             return this;
         }
 
-        toCompleteVector(vector.getSize(), this);
+        toCompleteVector(vector.getSize());
 
         for (int i = 0; i < Math.max(vector.getSize(), n); i++) {
             components[i] = components[i] + vector.components[i];
@@ -93,7 +97,7 @@ public class Vector {
             return new Vector(components);
         }
 
-        toCompleteVector(vector.getSize(), this);
+        toCompleteVector(vector.getSize());
 
         for (int i = 0; i < vector.getSize(); i++) {
             components[i] = components[i] - vector.components[i];
