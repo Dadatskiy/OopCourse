@@ -5,7 +5,7 @@ import dada.oop.vector.Vector;
 public class Matrix {
     private int m; //  rowsCount
     private int n; // columnsCount
-    public double[][] array;
+    private double[][] array;
     private Vector[] vectors;
 
     public Matrix(int m, int n) {
@@ -76,24 +76,28 @@ public class Matrix {
         return new Vector(array[rowNumber]);
     }
 
-    public int getRowsCount () {
+    public double[][] getArray() {
+        return array;
+    }
+
+    public int getRowsCount() {
         return m;
     }
 
-    public int getColumnsCount () {
+    public int getColumnsCount() {
         return n;
     }
 
-    public Vector getRowVector (int rowIndex) {
+    public Vector getRowVector(int rowIndex) {
         return vectors[rowIndex];
     }
 
-    public void setRowVector (int rowNumber, Vector vector) {
+    public void setRowVector(int rowNumber, Vector vector) {
         vectors[rowNumber] = vector;
         array[rowNumber] = vector.getComponents();
     }
 
-    public Vector getColumnVector (int columnIndex) {
+    public Vector getColumnVector(int columnIndex) {
         Vector vector = new Vector(m);
 
         for (int i = 0; i < m; i++) {
@@ -103,12 +107,12 @@ public class Matrix {
         return vector;
     }
 
-    public Matrix transpose () {
-        Matrix matrix  = new Matrix(n,m);
+    public Matrix transpose() {
+        Matrix matrixTemp = new Matrix(n, m);
 
         for (int i = 0; i < n; i++) {
-            matrix.setRowVector(i, this.getColumnVector(i));
-            vectors[i] = matrix.getRowVector(i);
+            matrixTemp.setRowVector(i, this.getColumnVector(i));
+            vectors[i] = matrixTemp.getRowVector(i);
         }
 
         int temp = m;
@@ -118,21 +122,82 @@ public class Matrix {
         array = new double[m][n];
         vectorsToArray();
 
-        return matrix;
+        return this;
     }
-/*
-    @Override
-    public String toString() {
-        StringBuilder matrixString = new StringBuilder("{ ");
 
-        for (int i = 0; i < n - 1; i++) {
-            matrixString.append((vectors[i])).append(", ");
+    public Matrix multiByScalar(double scalar) {
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                array[i][j] = array[i][j] * scalar;
+            }
         }
 
-        matrixString.append(vectors[n - 1]).append(" }");
-        return String.valueOf(matrixString);
+        vectors = arrayToVectors();
+
+        return this;
     }
-*/
+
+    public Matrix addMatrix(Matrix matrix) {
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                array[i][j] = array[i][j] + matrix.getRowVector(i).getComponent(j);
+            }
+        }
+
+        vectors = arrayToVectors();
+
+        return this;
+    }
+
+    public Matrix subtractMatrix(Matrix matrix) {
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                array[i][j] = array[i][j] - matrix.getRowVector(i).getComponent(j);
+            }
+        }
+
+        vectors = arrayToVectors();
+
+        return this;
+    }
+
+    public Matrix multiByMatrix(Matrix matrix) {
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                array[i][j] = array[i][j] * matrix.getRowVector(i).getComponent(j);
+            }
+        }
+
+        vectors = arrayToVectors();
+
+        return this;
+    }
+
+    public static Matrix getSum(Matrix matrix1, Matrix matrix2) {
+        return matrix1.addMatrix(matrix2);
+    }
+
+    public static Matrix getDiff(Matrix matrix1, Matrix matrix2) {
+        return matrix1.subtractMatrix(matrix2);
+    }
+
+    public static Matrix getMultiply(Matrix matrix1, Matrix matrix2) {
+        return matrix1.multiByMatrix(matrix2);
+    }
+
+    /*
+        @Override
+        public String toString() {
+            StringBuilder matrixString = new StringBuilder("{ ");
+
+            for (int i = 0; i < n - 1; i++) {
+                matrixString.append((vectors[i])).append(", ");
+            }
+
+            matrixString.append(vectors[n - 1]).append(" }");
+            return String.valueOf(matrixString);
+        }
+    */
     @Override
     public String toString() {
         StringBuilder matrixString = new StringBuilder();
@@ -143,5 +208,42 @@ public class Matrix {
 
         matrixString.append(vectors[m - 1]);
         return String.valueOf(matrixString);
+    }
+
+    public double[][] getMinor(double[][] array) {
+        double[][] minor = new double[array.length - 1][array[0].length - 1];
+
+        for (int i = 0, k = 0; i < minor.length; i++, k++) {
+            for (int j = 0, l = 0; j < minor[0].length; j++, l++) {
+                if (k == i) {
+                    k++;
+                }
+
+                if (l == j) {
+                    l++;
+                }
+
+                minor[i][j] = array[k][l];
+            }
+        }
+
+        return minor;
+    }
+
+    public double getSub(double [][] array) {
+        double bag = 0;
+
+        if (array.length == 2) {
+            bag = array[0][0] * array[1][1] - array[0][1] * array[1][0];
+        }
+
+        for (int i = 0; i < array.length; i++) {
+            if (i % 2 == 0) {
+                bag += getSub(getMinor(array));
+            } else
+                bag -= getSub(getMinor(array));
+        }
+
+        return bag;
     }
 }
