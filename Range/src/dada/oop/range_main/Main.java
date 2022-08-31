@@ -6,23 +6,6 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
-    /*
-    public static void printRangesArray(Range[] ranges) {
-        if (ranges.length == 0) {
-            System.out.println("[]");
-        } else if (ranges.length == 1) {
-            System.out.println("[" + ranges[0] + "]");
-        } else {
-            System.out.print("[");
-
-            for (int i = 0; i < ranges.length - 1; i++) {
-                System.out.print(ranges[i] + ", ");
-            }
-
-            System.out.println(ranges[ranges.length - 1] + "]");
-        }
-    }
-*/
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -64,13 +47,11 @@ public class Main {
         Range[] union = range1.getUnion(range2);
 
         System.out.print("Объединением интервалов " + range1 + " и " + range2 + " является: ");
-        //printRangesArray(union);
         System.out.println(Arrays.toString(union));
 
         Range[] difference = range1.getDifference(range2);
 
         System.out.print("Несимметричной разностью интервалов " + range1 + " и " + range2 + " является: ");
-        //printRangesArray(difference);
         System.out.println(Arrays.toString(difference));
     }
 }

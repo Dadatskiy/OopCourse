@@ -78,7 +78,7 @@ public class Range {
             }
 
             if (from == range.from && to > range.to) {
-                return new Range[]{new Range(from, range.to)};
+                return new Range[]{new Range(range.to, to)};
             }
 
             if (from > range.from && to > range.to) {
@@ -88,6 +88,10 @@ public class Range {
             if (from < range.from) {
                 return new Range[]{new Range(from, range.from)};
             }
+        }
+
+        if (from == range.to && to > range.from) {
+            return new Range[]{new Range(from, to)};
         }
 
         return new Range[0];
