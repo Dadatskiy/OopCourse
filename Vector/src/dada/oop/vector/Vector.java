@@ -3,55 +3,39 @@ package dada.oop.vector;
 import java.util.Arrays;
 
 public class Vector {
-    private int n;
 
     private double[] components;
 
-    public Vector(int n) {
-        if (n < 0) {
-            throw new IllegalArgumentException("Размерность вектора не может быть меньше нуля");
+    public Vector(int size) {
+        if (size <= 0) {
+            throw new IllegalArgumentException("Некорректная размерность вектора: " + size + ", должна быть больше нуля");
         }
 
-        this.n = n;
-        components = new double[n];
+        components = new double[size];
     }
 
     public Vector(Vector vector) {
-        this.n = vector.getSize();
-        this.components = new double[vector.getSize()];
-
-        System.arraycopy(vector.components, 0, this.components, 0, vector.getSize());
+        components = Arrays.copyOf(vector.components, vector.components.length);
     }
 
     public Vector(double[] components) {
-        this.n = components.length;
-        this.components = components;
+        if (components.length <= 0) {
+            throw new IllegalArgumentException("В качестве компонентов передан пустой массив, размерность вектора должна быть больше нуля");
+        }
+
+        this.components = Arrays.copyOf(components, components.length);
     }
 
-    public Vector(int n, double[] components) {
-        if (n < 0) {
-            throw new IllegalArgumentException("Размерность вектора не может быть меньше нуля");
+    public Vector(int size, double[] components) {
+        if (size <= 0) {
+            throw new IllegalArgumentException("Некорректная размерность вектора: " + size + ", должна быть больше нуля");
         }
 
-        this.n = n;
-
-        if (n < components.length) {
-            throw new IllegalArgumentException();
-        } else if (n == components.length) {
-            this.components = components;
-        } else {
-            this.components = new double[n];
-
-            System.arraycopy(components, 0, this.components, 0, components.length);
-        }
+        this.components = Arrays.copyOf(components, size);
     }
 
     public int getSize() {
-        return n;
-    }
-
-    public double [] getComponents() {
-        return components;
+        return components.length;
     }
 
     public double getComponent(int index) {
@@ -59,137 +43,116 @@ public class Vector {
     }
 
     public void setComponent(int index, double component) {
-        this.components[index] = component;
+        components[index] = component;
     }
 
-    public void toCompleteVector(int necessaryCapacity) {
-        double[] tempComponents = components;
-
-        components = new double[necessaryCapacity];
-
-        System.arraycopy(tempComponents, 0, components, 0, getSize());
+    public void toCompleteVector(int necessarySize) {
+        double[] originalComponents = components;
+        components = new double[necessarySize];
+        components = Arrays.copyOf(originalComponents, components.length);
     }
 
-    public Vector addVector(Vector vector) {
-        if (n >= vector.getSize()) {
-            for (int i = 0; i < Math.min(vector.getSize(), n); i++) {
-                this.components[i] = this.components[i] + vector.components[i];
-            }
-
-            return this;
+    public Vector add(Vector vector) {
+        if (components.length < vector.components.length) {
+            toCompleteVector(vector.components.length);
         }
 
-        toCompleteVector(vector.getSize());
-
-        for (int i = 0; i < Math.max(vector.getSize(), n); i++) {
-            components[i] = components[i] + vector.components[i];
+        for (int i = 0; i < vector.components.length; i++) {
+            components[i] += vector.components[i];
         }
 
-        return new Vector(components);
+        return this;
     }
 
-    public Vector subtractVector(Vector vector) {
-        if (n >= vector.getSize()) {
-            for (int i = 0; i < vector.getSize(); i++) {
-                components[i] = components[i] - vector.components[i];
-            }
-
-            return new Vector(components);
+    public Vector subtract(Vector vector) {
+        if (components.length < vector.components.length) {
+            toCompleteVector(vector.components.length);
         }
 
-        toCompleteVector(vector.getSize());
-
-        for (int i = 0; i < vector.getSize(); i++) {
-            components[i] = components[i] - vector.components[i];
+        for (int i = 0; i < vector.components.length; i++) {
+            components[i] -= vector.components[i];
         }
 
-        return new Vector(components);
+        return this;
     }
 
     public Vector multiplyByScalar(double scalar) {
-        for (int i = 0; i < n; i++) {
-            components[i] = components[i] * scalar;
+        for (int i = 0; i < components.length; i++) {
+            components[i] *= scalar;
         }
 
-        return new Vector(components);
+        return this;
     }
 
-    public Vector revertVector() {
-        for (int i = 0; i < n; i++) {
-            components[i] = -components[i];
-        }
-
-        return new Vector(components);
+    public Vector revert() {
+        multiplyByScalar(-1);
+        return this;
     }
 
-    public double getVectorLength() {
-        double squaredComponents = 0;
+    public double getLength() {
+        double componentsSquaredSum = 0;
 
         for (double component : components) {
-            squaredComponents = Math.pow(component, 2) + squaredComponents;
+            componentsSquaredSum += component * component;
         }
 
-        return Math.sqrt(squaredComponents);
+        return Math.sqrt(componentsSquaredSum);
     }
 
     @Override
     public String toString() {
-        if (components.length == 0) {
-            return "{}";
-        }
-
-        if (components.length == 1) {
-            return "{" + components[0] + "}";
-        }
-
-        StringBuilder componentsString = new StringBuilder("{");
+        StringBuilder stringBuilder = new StringBuilder("{");
 
         for (int i = 0; i < components.length - 1; i++) {
-            componentsString.append(components[i]).append(", ");
+            stringBuilder.append(components[i]).append(", ");
         }
 
-        componentsString.append(components[components.length - 1]).append("}");
-        return String.valueOf(componentsString);
+        stringBuilder.append(components[components.length - 1]).append("}");
+        return stringBuilder.toString();
     }
 
     @Override
-    public boolean equals(Object vector) {
-        if (vector == this) {
+    public boolean equals(Object o) {
+        if (o == this) {
             return true;
         }
 
-        if (vector == null || getClass() != vector.getClass()) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
-        Vector vector1 = (Vector) vector;
-        return n == vector1.n && Arrays.equals(components, vector1.components);
+        Vector vector = (Vector) o;
+        return components.length == vector.components.length && Arrays.equals(components, vector.components);
     }
 
     @Override
     public int hashCode() {
         final int prime = 37;
         int hash = 1;
-        hash = prime * hash + Integer.hashCode(n);
         hash = prime * hash + Arrays.hashCode(components);
         return hash;
     }
 
-    public static Vector getVectorSum(Vector vector1, Vector vector2) {
-        return new Vector(vector1.addVector(vector2));
+    public static Vector getSum(Vector vector1, Vector vector2) {
+        Vector vector1Copy = new Vector(vector1);
+        Vector vector2Copy = new Vector(vector2);
+        return new Vector(vector1Copy.add(vector2Copy));
     }
 
-    public static Vector getVectorDiff(Vector vector1, Vector vector2) {
-        return new Vector(vector1.subtractVector(vector2));
+    public static Vector getDifference(Vector vector1, Vector vector2) {
+        Vector vector1Copy = new Vector(vector1);
+        Vector vector2Copy = new Vector(vector2);
+        return new Vector(vector1Copy.subtract(vector2Copy));
     }
 
-    public static double getScalarMulti(Vector vector1, Vector vector2) {
-        double scalarMulti = 0;
+    public static double getScalarProduct(Vector vector1, Vector vector2) {
+        double scalarProduct = 0;
+        int iterationsCount = Math.min(vector1.components.length, vector2.components.length) - 1;
 
-        for (int i = 0; i < Math.min(vector1.getSize(), vector2.getSize()); i++) {
-            scalarMulti = scalarMulti + vector1.getComponent(i) * vector2.getComponent(i);
+        for (int i = 0; i <= iterationsCount; i++) {
+            scalarProduct = scalarProduct + vector1.components[i] * vector2.components[i];
         }
 
-        return scalarMulti;
+        return scalarProduct;
     }
 }
