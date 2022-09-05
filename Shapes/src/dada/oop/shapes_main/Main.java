@@ -1,27 +1,45 @@
 package dada.oop.shapes_main;
 
+import dada.oop.comparators.shapeAreaComparator;
+import dada.oop.comparators.shapePerimeterComparator;
 import dada.oop.shapes.*;
 import dada.oop.shapes.Rectangle;
 
 import java.util.Arrays;
 
 public class Main {
-    public static Shape getShapeWithConformingAreaNumber(Shape[] shapes, int descendingAreaShapeNumber) {
-        if (shapes == null || shapes.length < 1) {
-            throw new IllegalArgumentException("Массив не передан или передан пустой массив");
+    public static Shape getShapeWithConformingAreaNumber(Shape[] shapes, int indexFromEnd) {
+        if (shapes == null) {
+            throw new NullPointerException("Массив не передан");
         }
 
-        Arrays.sort(shapes, new SortByArea());
-        return shapes[shapes.length - descendingAreaShapeNumber];
+        if (shapes.length == 0) {
+            throw new IllegalArgumentException("Передан пустой массив");
+        }
+
+        if (indexFromEnd < 0) {
+            throw new IllegalArgumentException("Передан недопустимый индекс = " + indexFromEnd);
+        }
+
+        Arrays.sort(shapes, new shapeAreaComparator());
+        return shapes[shapes.length - indexFromEnd];
     }
 
-    public static Shape getShapeWithConformingPerimeterNumber(Shape[] shapes, int whatPerimeterShape) {
-        if (shapes == null || shapes.length < 1) {
-            throw new IllegalArgumentException("Массив не передан или передан пустой массив");
+    public static Shape getShapeWithConformingPerimeterNumber(Shape[] shapes, int indexFromEnd) {
+        if (shapes == null) {
+            throw new NullPointerException("Массив не передан");
         }
 
-        Arrays.sort(shapes, new SortByPerimeter());
-        return shapes[shapes.length - whatPerimeterShape];
+        if (shapes.length == 0) {
+            throw new IllegalArgumentException("Передан пустой массив");
+        }
+
+        if (indexFromEnd < 0) {
+            throw new IllegalArgumentException("Передан недопустимый индекс = " + indexFromEnd);
+        }
+
+        Arrays.sort(shapes, new shapePerimeterComparator());
+        return shapes[shapes.length - indexFromEnd];
     }
 
     public static void main(String[] args) {
@@ -48,21 +66,22 @@ public class Main {
                 new Circle(35)
         };
 
-        int descendingAreaShapeNumber = 1;
+        int shapeAreaIndexFromEnd = 1;
 
-        Shape firstAreaShape = getShapeWithConformingAreaNumber(shapes, descendingAreaShapeNumber);
+        Shape firstAreaShape = getShapeWithConformingAreaNumber(shapes, shapeAreaIndexFromEnd);
 
         System.out.println("Фигура с максимальной площадью имеет следующие характеристики: ");
         System.out.println(firstAreaShape);
 
-        int descendingPerimeterShapeNumber = 2;
+        int shapePerimeterIndexFromEnd = 2;
 
-        Shape secondPerimeterShape = getShapeWithConformingPerimeterNumber(shapes, descendingPerimeterShapeNumber);
+        Shape secondPerimeterShape = getShapeWithConformingPerimeterNumber(shapes, shapePerimeterIndexFromEnd);
 
         System.out.println("Фигура со вторым по величине периметром имеет следующие характеристики: ");
         System.out.println(secondPerimeterShape);
 
         System.out.println("Проверка на равенство объектов square1 и элемента массива объектов Shapes по индексу 3:");
         System.out.println("Результат: " + square1.equals(shapes[3]));
+        System.out.println(triangle1);
     }
 }

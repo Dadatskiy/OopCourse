@@ -23,7 +23,7 @@ public class Triangle implements Shape {
         this.y3 = y3;
     }
 
-    public double getSideLength(double x1, double y1, double x2, double y2) {
+    private static double getSideLength(double x1, double y1, double x2, double y2) {
         return Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
     }
 
@@ -85,29 +85,28 @@ public class Triangle implements Shape {
         return Math.max(Math.max(y1, y2), y3) - Math.min(Math.min(y1, y2), y3);
     }
 
-    private double side1Length;
-    private double side2Length;
-    private double side3Length;
-
     @Override
     public double getPerimeter() {
-        side1Length = getSideLength(x1, y1, x2, y2);
-        side2Length = getSideLength(x3, y3, x2, y2);
-        side3Length = getSideLength(x3, y3, x1, y1);
+        double side1Length = getSideLength(x1, y1, x2, y2);
+        double side2Length = getSideLength(x3, y3, x2, y2);
+        double side3Length = getSideLength(x3, y3, x1, y1);
         return side1Length + side2Length + side3Length;
     }
 
     @Override
     public double getArea() {
-        double semiPerimeter = getPerimeter() / 2;
+        double side1Length = getSideLength(x1, y1, x2, y2);
+        double side2Length = getSideLength(x3, y3, x2, y2);
+        double side3Length = getSideLength(x3, y3, x1, y1);
+        double semiPerimeter = (side1Length + side2Length + side3Length) / 2;
         return Math.sqrt(semiPerimeter
                 * (semiPerimeter - side1Length) * (semiPerimeter - side2Length) * (semiPerimeter - side3Length));
     }
 
     @Override
     public String toString() {
-        return "Тип фигуры: Треугольник; (x1; y1) = " + x1 + ";" + y1 + ", (x2; y2) = " + x2 + ";" + y2
-                + ", (x3; y3) = " + x3 + "," + y3 + "Периметр = " + getPerimeter() + "Площадь = " + getArea();
+        return "Тип фигуры: Треугольник; (x1, y1) = (" + x1 + ", " + y1 + "); (x2, y2) = (" + x2 + ", " + y2
+                + "); (x3, y3) = (" + x3 + ", " + y3 + "); " + "Периметр = " + getPerimeter() + "; " + "Площадь = " + getArea();
     }
 
     @Override
