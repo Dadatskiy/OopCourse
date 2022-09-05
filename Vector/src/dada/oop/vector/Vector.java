@@ -46,7 +46,7 @@ public class Vector {
         components[index] = component;
     }
 
-    public void toCompleteVector(int necessarySize) {
+    public void increaseVectorSize(int necessarySize) {
         double[] originalComponents = components;
         components = new double[necessarySize];
         components = Arrays.copyOf(originalComponents, components.length);
@@ -54,7 +54,7 @@ public class Vector {
 
     public Vector add(Vector vector) {
         if (components.length < vector.components.length) {
-            toCompleteVector(vector.components.length);
+            increaseVectorSize(vector.components.length);
         }
 
         for (int i = 0; i < vector.components.length; i++) {
@@ -66,7 +66,7 @@ public class Vector {
 
     public Vector subtract(Vector vector) {
         if (components.length < vector.components.length) {
-            toCompleteVector(vector.components.length);
+            increaseVectorSize(vector.components.length);
         }
 
         for (int i = 0; i < vector.components.length; i++) {
