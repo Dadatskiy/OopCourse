@@ -46,7 +46,7 @@ public class Vector {
         components[index] = component;
     }
 
-    public void increaseVectorSize(int necessarySize) {
+    private void increaseVectorSize(int necessarySize) {
         double[] originalComponents = components;
         components = new double[necessarySize];
         components = Arrays.copyOf(originalComponents, components.length);
