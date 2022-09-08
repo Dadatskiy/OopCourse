@@ -150,7 +150,7 @@ public class Vector {
         int iterationsCount = Math.min(vector1.components.length, vector2.components.length) - 1;
 
         for (int i = 0; i <= iterationsCount; i++) {
-            scalarProduct = scalarProduct + vector1.components[i] * vector2.components[i];
+            scalarProduct += vector1.components[i] * vector2.components[i];
         }
 
         return scalarProduct;
