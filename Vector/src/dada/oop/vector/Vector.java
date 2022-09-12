@@ -3,7 +3,6 @@ package dada.oop.vector;
 import java.util.Arrays;
 
 public class Vector {
-
     private double[] components;
 
     public Vector(int size) {
@@ -19,7 +18,7 @@ public class Vector {
     }
 
     public Vector(double[] components) {
-        if (components.length <= 0) {
+        if (components.length == 0) {
             throw new IllegalArgumentException("В качестве компонентов передан пустой массив, размерность вектора должна быть больше нуля");
         }
 
@@ -46,15 +45,9 @@ public class Vector {
         components[index] = component;
     }
 
-    private void increaseVectorSize(int necessarySize) {
-        double[] originalComponents = components;
-        components = new double[necessarySize];
-        components = Arrays.copyOf(originalComponents, components.length);
-    }
-
     public Vector add(Vector vector) {
         if (components.length < vector.components.length) {
-            increaseVectorSize(vector.components.length);
+            components = Arrays.copyOf(components, vector.components.length);
         }
 
         for (int i = 0; i < vector.components.length; i++) {
@@ -66,7 +59,7 @@ public class Vector {
 
     public Vector subtract(Vector vector) {
         if (components.length < vector.components.length) {
-            increaseVectorSize(vector.components.length);
+            components = Arrays.copyOf(components, vector.components.length);
         }
 
         for (int i = 0; i < vector.components.length; i++) {
@@ -122,7 +115,7 @@ public class Vector {
         }
 
         Vector vector = (Vector) o;
-        return components.length == vector.components.length && Arrays.equals(components, vector.components);
+        return Arrays.equals(components, vector.components);
     }
 
     @Override
@@ -135,21 +128,20 @@ public class Vector {
 
     public static Vector getSum(Vector vector1, Vector vector2) {
         Vector vector1Copy = new Vector(vector1);
-        Vector vector2Copy = new Vector(vector2);
-        return new Vector(vector1Copy.add(vector2Copy));
+        return vector1Copy.add(vector2);
     }
 
     public static Vector getDifference(Vector vector1, Vector vector2) {
         Vector vector1Copy = new Vector(vector1);
-        Vector vector2Copy = new Vector(vector2);
-        return new Vector(vector1Copy.subtract(vector2Copy));
+
+        return vector1Copy.subtract(vector2);
     }
 
     public static double getScalarProduct(Vector vector1, Vector vector2) {
         double scalarProduct = 0;
-        int iterationsCount = Math.min(vector1.components.length, vector2.components.length) - 1;
+        int smallerVectorSize = Math.min(vector1.components.length, vector2.components.length);
 
-        for (int i = 0; i <= iterationsCount; i++) {
+        for (int i = 0; i < smallerVectorSize; i++) {
             scalarProduct += vector1.components[i] * vector2.components[i];
         }
 
