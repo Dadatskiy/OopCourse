@@ -105,8 +105,8 @@ public class Triangle implements Shape {
 
     @Override
     public String toString() {
-        return "Тип фигуры: Треугольник; (x1, y1) = (" + x1 + ", " + y1 + "); (x2, y2) = (" + x2 + ", " + y2
-                + "); (x3, y3) = (" + x3 + ", " + y3 + "); " + "Периметр = " + getPerimeter() + "; " + "Площадь = " + getArea();
+        return "Тип фигуры: Треугольник; (" + x1 + ", " + y1 + "); (" + x2 + ", " + y2
+                + "); (" + x3 + ", " + y3 + "); " + "Периметр = " + getPerimeter() + "; " + "Площадь = " + getArea();
     }
 
     @Override

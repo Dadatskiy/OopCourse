@@ -1,7 +1,7 @@
 package dada.oop.shapes_main;
 
-import dada.oop.comparators.shapeAreaComparator;
-import dada.oop.comparators.shapePerimeterComparator;
+import dada.oop.shapes_comparators.ShapeAreaComparator;
+import dada.oop.shapes_comparators.ShapePerimeterComparator;
 import dada.oop.shapes.*;
 import dada.oop.shapes.Rectangle;
 
@@ -10,35 +10,27 @@ import java.util.Arrays;
 public class Main {
     public static Shape getShapeWithConformingAreaNumber(Shape[] shapes, int indexFromEnd) {
         if (shapes == null) {
-            throw new NullPointerException("Массив не передан");
+            throw new NullPointerException("Передан null");
         }
 
-        if (shapes.length == 0) {
-            throw new IllegalArgumentException("Передан пустой массив");
+        if (indexFromEnd <= 0 || indexFromEnd > shapes.length) {
+            throw new IllegalArgumentException("Передан недопустимый индекс: " + indexFromEnd);
         }
 
-        if (indexFromEnd < 0) {
-            throw new IllegalArgumentException("Передан недопустимый индекс = " + indexFromEnd);
-        }
-
-        Arrays.sort(shapes, new shapeAreaComparator());
+        Arrays.sort(shapes, new ShapeAreaComparator());
         return shapes[shapes.length - indexFromEnd];
     }
 
     public static Shape getShapeWithConformingPerimeterNumber(Shape[] shapes, int indexFromEnd) {
         if (shapes == null) {
-            throw new NullPointerException("Массив не передан");
+            throw new NullPointerException("Передан null");
         }
 
-        if (shapes.length == 0) {
-            throw new IllegalArgumentException("Передан пустой массив");
+        if (indexFromEnd <= 0 || indexFromEnd > shapes.length) {
+            throw new IllegalArgumentException("Передан недопустимый индекс: " + indexFromEnd);
         }
 
-        if (indexFromEnd < 0) {
-            throw new IllegalArgumentException("Передан недопустимый индекс = " + indexFromEnd);
-        }
-
-        Arrays.sort(shapes, new shapePerimeterComparator());
+        Arrays.sort(shapes, new ShapePerimeterComparator());
         return shapes[shapes.length - indexFromEnd];
     }
 
@@ -82,6 +74,5 @@ public class Main {
 
         System.out.println("Проверка на равенство объектов square1 и элемента массива объектов Shapes по индексу 3:");
         System.out.println("Результат: " + square1.equals(shapes[3]));
-        System.out.println(triangle1);
     }
 }
