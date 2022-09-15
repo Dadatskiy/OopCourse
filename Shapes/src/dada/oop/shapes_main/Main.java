@@ -10,11 +10,11 @@ import java.util.Arrays;
 public class Main {
     public static Shape getShapeWithConformingAreaNumber(Shape[] shapes, int indexFromEnd) {
         if (shapes == null) {
-            throw new NullPointerException("Передан null");
+            throw new NullPointerException("shapes is null");
         }
 
         if (indexFromEnd <= 0 || indexFromEnd > shapes.length) {
-            throw new IllegalArgumentException("Передан недопустимый индекс: " + indexFromEnd);
+            throw new ArrayIndexOutOfBoundsException("Передан недопустимый индекс: " + indexFromEnd + ". Индекс должен быть в пределах от 1 до " + shapes.length);
         }
 
         Arrays.sort(shapes, new ShapeAreaComparator());
@@ -23,11 +23,11 @@ public class Main {
 
     public static Shape getShapeWithConformingPerimeterNumber(Shape[] shapes, int indexFromEnd) {
         if (shapes == null) {
-            throw new NullPointerException("Передан null");
+            throw new NullPointerException("shapes is null");
         }
 
         if (indexFromEnd <= 0 || indexFromEnd > shapes.length) {
-            throw new IllegalArgumentException("Передан недопустимый индекс: " + indexFromEnd);
+            throw new ArrayIndexOutOfBoundsException("Передан недопустимый индекс: " + indexFromEnd + ". Индекс должен быть в пределах от 1 до " + shapes.length);
         }
 
         Arrays.sort(shapes, new ShapePerimeterComparator());
