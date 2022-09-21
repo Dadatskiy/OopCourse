@@ -38,14 +38,14 @@ public class Main {
 
         System.out.println("matrix1: " + matrix1);
         System.out.println();
-        System.out.println("Вектор-строка по индексу 2 матрицы matrix1: " + matrix1.getRowVector(2));
+        System.out.println("Вектор-строка по индексу 2 матрицы matrix1: " + matrix1.getRow(2));
         System.out.println();
-        System.out.println("Вектор-столбец по индексу 1 матрицы matrix1: " + matrix1.getColumnVector(1));
+        System.out.println("Вектор-столбец по индексу 1 матрицы matrix1: " + matrix1.getColumn(1));
         System.out.println();
         System.out.println("Заменим вектор-строку по индексу 0 на вектор vector0");
         System.out.println();
 
-        matrix1.setRowVector(0, vector0);
+        matrix1.setRow(0, vector0);
         System.out.println("Теперь matrix1: " + matrix1);
         System.out.println();
 
