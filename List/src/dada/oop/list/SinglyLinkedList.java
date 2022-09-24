@@ -50,4 +50,44 @@ public class SinglyLinkedList<T> {
 
         return p.getData();
     }
+
+    public T setData(int index, T data) {
+        int i;
+        ListItem<T> p;
+
+        for (p = head, i = 0; i < index; p = p.getNext()) {
+            i++;
+        }
+
+        T originalData = p.getData();
+
+        p.setData(data);
+
+        return originalData;
+    }
+
+    public T deleteElement(int index) {
+        int i;
+        ListItem<T> p;
+
+        for (p = head, i = 0; i < index - 1; p = p.getNext()) {
+            i++;
+        }
+
+        T originalData = p.getNext().getData();
+
+        p.setNext(p.getNext().getNext());
+        count--;
+
+        return originalData;
+    }
+
+    public void addFirst(ListItem<T> listItem) {
+        count++;
+        ListItem<T> originalHead = head;
+        head = new ListItem<>(listItem.getData(), listItem.getNext());
+        head.setNext(originalHead);
+    }
+
+
 }

@@ -13,9 +13,10 @@ public class Main {
         ListItem<Integer> first = new ListItem<Integer>(23, second);
 
         SinglyLinkedList<Integer> list = new SinglyLinkedList<Integer>(first);
-        System.out.println(list.getFirstData());
-        System.out.println(list.getCount());
+        //System.out.println(list.getFirstData());
+        //System.out.println(list.getCount());
         System.out.println(list);
-
+        list.addFirst(third);
+        System.out.println(list);
     }
 }
